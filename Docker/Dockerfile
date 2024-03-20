@@ -2,29 +2,42 @@
 FROM nvcr.io/nvidia/pytorch:22.06-py3
 
 # Python 3.8.13
-# PyTorch Version 1.13.0a0+340c412
 # CUDA 11.7 driver version 515.48.08
 
-# scikit-learn==0.24.2
-# torchvision==0.13.0a0
+# apt-cache policy git -> Installed: 1:2.25.1-1ubuntu3.4
+# apt-cache policy texlive-fonts-recommended -> Installed: 2019.20200218-1
+
+# pip3 list -> (excerpt)
+# ipykernel                     6.14.0
+# ipython                       8.4.0
+# latex                         0.7.0
+# notebook                      6.4.10
+# numpy                         1.22.4
+# pandas                        1.3.5
+# Pillow                        9.0.1
+# scikit-learn                  1.1.1
+# scipy                         1.6.3
+# torch                         1.13.0a0+340c412
+# torchvision                   0.13.0a0
+# tqdm                          4.64.0
 
 RUN apt-get update
-RUN apt-get install -y git
 
 RUN DEBIAN_FRONTEND=noninteractive \
 apt-get install -y \
-texlive
+texlive=2019.20200218-1
 
 RUN apt-get install -y \
-texlive-latex-extra \
-texlive-fonts-recommended \
-dvipng \
-cm-super
+texlive-latex-extra=2019.202000218-1 \
+dvipng=1.15-1.1 \
+cm-super=0.3.4-15
 
 RUN apt update
 RUN apt install -y \
-texlive-luatex \
-texlive-lang-japanese
+texlive-luatex=2019.20200218-1 \
+texlive-lang-japanese=2019.20200218-1
+
+RUN python3 -m pip install --upgrade pip
 
 RUN pip3 install \
 gpustat==1.0.0 \
