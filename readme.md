@@ -24,7 +24,7 @@ This setup assumes the running of `movie.ipynb`. You may also be able to run `at
 ```console
 pyenv install 3.11.8
 pyenv global 3.11.8
-pip install matplotlib==3.8.3 seaborn==0.13.2 opencv-python==4.8.1.78 torch==2.1.2 torchvision==0.16.2 ipython==8.22.2 torchattacks==3.5.1
+pip install matplotlib==3.8.3 seaborn==0.13.2 opencv-python==4.8.1.78 torch==2.1.2 torchvision==0.16.2 ipykernel==6.29.3 ipython==8.22.2 torchattacks==3.5.1
 ```
 
 # Contents
