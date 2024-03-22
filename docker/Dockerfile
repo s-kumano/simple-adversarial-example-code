@@ -1,57 +1,63 @@
-# https://docs.nvidia.com/deeplearning/tensorrt/container-release-notes/rel_22-06.html
-FROM nvcr.io/nvidia/pytorch:22.06-py3
+# https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch/tags
+FROM nvcr.io/nvidia/pytorch:24.02-py3
 
-# Python 3.8.13
-# CUDA 11.7 driver version 515.48.08
+# docker run --gpus all -it --rm nvcr.io/nvidia/pytorch:24.02-py3
+# -> PyTorch Version 2.3.0a0+ebedce2
+# -> CUDA 12.3 driver version 545.23.08 with kernel driver version 515.48.07.
 
-# apt-cache policy git -> Installed: 1:2.25.1-1ubuntu3.4
-# apt-cache policy texlive-fonts-recommended -> Installed: 2019.20200218-1
+# python -V -> Python 3.10.12
 
-# pip3 list -> (excerpt)
-# ipykernel                     6.14.0
-# ipython                       8.4.0
-# latex                         0.7.0
-# notebook                      6.4.10
-# numpy                         1.22.4
-# pandas                        1.3.5
-# Pillow                        9.0.1
-# scikit-learn                  1.1.1
-# scipy                         1.6.3
-# torch                         1.13.0a0+340c412
-# torchvision                   0.13.0a0
-# tqdm                          4.64.0
+# apt-cache policy git -> Installed: 1:2.34.1-1ubuntu1.10
 
 RUN apt-get update
-
 RUN DEBIAN_FRONTEND=noninteractive \
 apt-get install -y \
-texlive=2019.20200218-1
+texlive=2021.20220204-1 \
+texlive-latex-extra=2021.20220204-1 \
+texlive-luatex=2021.20220204-1 \
+texlive-lang-japanese=2021.20220204-1 \
+cm-super=0.3.4-17 \
+dvipng=1.15-1.1
 
-RUN apt-get install -y \
-texlive-latex-extra=2019.202000218-1 \
-dvipng=1.15-1.1 \
-cm-super=0.3.4-15
-
-RUN apt update
-RUN apt install -y \
-texlive-luatex=2019.20200218-1 \
-texlive-lang-japanese=2019.20200218-1
+# pip3 list | grep -E 'ipykernel|ipython|matplotlib|notebook|numpy|opencv|pandas|pillow|scikit-learn|scipy|sympy|torch|tqdm'
+# ->
+# ipykernel                 6.29.2
+# ipython                   8.21.0
+# ipython-genutils          0.2.0
+# matplotlib                3.8.2
+# matplotlib-inline         0.1.6
+# notebook                  6.4.10
+# numpy                     1.24.4
+# opencv                    4.7.0
+# pandas                    1.5.3
+# pillow                    10.2.0
+# pytorch-quantization      2.1.2
+# scikit-learn              1.2.0
+# scipy                     1.12.0
+# sympy                     1.12
+# torch                     2.3.0a0+ebedce2
+# torch-tensorrt            2.3.0a0
+# torchdata                 0.7.1a0
+# torchtext                 0.17.0a0
+# torchvision               0.18.0a0
+# tqdm                      4.66.1
 
 RUN python3 -m pip install --upgrade pip
-
 RUN pip3 install \
-gpustat==1.0.0 \
-ipywidgets==8.0.4 \
+gpustat==1.1.1 \
+ipywidgets==8.1.2 \
+torchmetrics==1.3.2 \
+pytorch-lightning==1.9.5 \
+lightning-bolts==0.7.0 \
 japanize-matplotlib==1.1.3 \
+seaborn==0.13.2 \
+patchworklib==0.6.3 \
 latex==0.7.0 \
-lightning-bolts==0.5.0 \
-matplotlib==3.6.2 \
-patchworklib==0.5.2 \
-pytorch-lightning==1.6.4 \
-seaborn==0.11.2 \
-torchattacks==3.2.6 \
-torchmetrics==0.9.2 \
-git+https://github.com/RobustBench/robustbench@ec26a6cd0b0812135270c3659caabcab80701b15
+pypdf==4.1.0 \
+torchattacks==3.5.1 \
+git+https://github.com/RobustBench/robustbench@34dda3a2367b6e2d04027fbef42b7c2d6cedf4a3
+
+# pip check
 
 RUN echo 'export OMP_NUM_THREADS=3' >> ~/.bashrc
 RUN echo "alias ls='ls --color'" >> ~/.bashrc
