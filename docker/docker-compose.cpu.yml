@@ -2,7 +2,7 @@
 # docker-compose version 1.29.2, build unknown
 version: '3.8'
 services:
-  research:
+  simple-adv-code:
     build: .
     shm_size: '8G'
     stdin_open: true
@@ -11,4 +11,4 @@ services:
       - ~/.gitconfig:/root/.gitconfig
       - ~/.ssh:/root/.ssh
       - ~/simple-adversarial-example-code:/root/project
-      - ~/dataset:/root/dataset
+      - ~/datasets:/root/datasets
