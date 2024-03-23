@@ -17,7 +17,7 @@ def in_range(x: Tensor, min: float, max: float) -> bool:
 
 def read_labels(path: str) -> list[str]:
     with open(path, 'r') as f:
-        labels = f.readlines()
+        labels = [label.replace('\n', '') for label in f.readlines()]
     return labels
 
 
