@@ -15,6 +15,12 @@ def in_range(x: Tensor, min: float, max: float) -> bool:
     return ((min<=x.min()) & (x.max()<=max)).item() # type: ignore
 
 
+def read_labels(path: str) -> list[str]:
+    with open(path, 'r') as f:
+        labels = f.readlines()
+    return labels
+
+
 def freeze(model: Module) -> None:
     for p in model.parameters():
         p.requires_grad = False
