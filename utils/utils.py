@@ -1,6 +1,7 @@
 from typing import Literal, Union
 
 import torch
+from lightning_lite.utilities.seed import seed_everything
 from pytorch_lightning.lite import LightningLite
 from torch import Tensor
 from torch.nn import Module
@@ -42,6 +43,10 @@ def dataloader(
         pin_memory=pin_memory,
         drop_last=drop_last,
     )
+
+
+def set_seed(seed: int = 0) -> None:
+    seed_everything(seed, True)
 
 
 class ModelWithNormalization(Module):
