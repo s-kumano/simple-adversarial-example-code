@@ -1,5 +1,6 @@
 from typing import Literal, Union
 
+import cv2
 import torch
 from lightning_lite.utilities.seed import seed_everything
 from pytorch_lightning.lite import LightningLite
@@ -47,6 +48,14 @@ def dataloader(
 
 def set_seed(seed: int = 0) -> None:
     seed_everything(seed, True)
+
+
+def save_torch_img(path: str, img: Tensor) -> None:
+    assert in_range(img, 0, 1)
+    npimg = img.cpu().permute(1, 2, 0).numpy() * 255
+    npimg = npimg.astype('uint8')
+    npimg = cv2.cvtColor(npimg, cv2.COLOR_RGB2BGR) # type: ignore
+    cv2.imwrite(path, npimg) # type: ignore
 
 
 class ModelWithNormalization(Module):
