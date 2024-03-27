@@ -49,6 +49,7 @@ ipywidgets==8.1.2 \
 torchmetrics==1.3.2 \
 pytorch-lightning==1.9.5 \
 lightning-bolts==0.7.0 \
+lightning-lite==1.8.6 \
 japanize-matplotlib==1.1.3 \
 seaborn==0.13.2 \
 patchworklib==0.6.3 \
