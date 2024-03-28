@@ -1,7 +1,7 @@
 from typing import Literal, Optional, Union
 
-import cv2
 import torch
+import torchvision
 from lightning_lite.utilities.seed import seed_everything
 from pytorch_lightning.lite import LightningLite
 from torch import Tensor
@@ -63,10 +63,7 @@ def set_seed(seed: int = 0) -> None:
 
 def save_torch_img(path: str, img: Tensor) -> None:
     assert in_range(img, 0, 1)
-    npimg = img.cpu().permute(1, 2, 0).numpy() * 255
-    npimg = npimg.astype('uint8')
-    npimg = cv2.cvtColor(npimg, cv2.COLOR_RGB2BGR) # type: ignore
-    cv2.imwrite(path, npimg) # type: ignore
+    torchvision.io.write_png((img.cpu()*255).to(torch.uint8), path, compression_level=0)
 
 
 class ModelWithNormalization(Module):
