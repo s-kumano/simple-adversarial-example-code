@@ -1,4 +1,4 @@
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
 import cv2
 import torch
@@ -8,6 +8,7 @@ from torch import Tensor
 from torch.nn import Module
 from torch.utils.data import DataLoader, Dataset
 from torchmetrics.classification.accuracy import MulticlassAccuracy
+from torchvision.models import ResNeXt50_32X4D_Weights, resnext50_32x4d
 from torchvision.transforms.functional import normalize
 from tqdm import tqdm
 
@@ -21,6 +22,16 @@ def read_labels(path: str) -> list[str]:
     with open(path, 'r') as f:
         labels = [label.replace('\n', '') for label in f.readlines()]
     return labels
+
+
+def setup_model(device: Optional[Union[str, torch.device]] = None) -> Module:
+    model = resnext50_32x4d(weights=ResNeXt50_32X4D_Weights.IMAGENET1K_V2)
+    model = ModelWithNormalization(model, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    model = model.eval()
+    freeze(model)
+    if device is not None:
+        model.to(device)
+    return model
 
 
 def freeze(model: Module) -> None:
