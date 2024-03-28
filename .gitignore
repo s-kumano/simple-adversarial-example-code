@@ -1,5 +1,6 @@
-.empty
-.ipynb_checkpoints/
 .DS_Store
+.empty/
+.ipynb_checkpoints/
 __pycache__/
+logs/
 models/
